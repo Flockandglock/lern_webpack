@@ -1,10 +1,16 @@
-import * as path from 'path';
-import * as webpack from 'webpack';
-import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = (env) => {
-  return {
-    mode: env.mode ?? development,
+type Mode = 'production' | 'development';
+
+interface EnvVariables {
+  mode: Mode
+}
+
+export default (env: EnvVariables) => {
+  const config: webpack.Configuration = {
+    mode: env.mode ?? "development",
     entry: path.resolve(__dirname, "src", "index.ts"),
     output: {
       filename: "[name].[contenthash].js",
@@ -30,4 +36,6 @@ module.exports = (env) => {
       extensions: [".tsx", ".ts", ".js"],
     },
   };
+
+  return config;
 };
